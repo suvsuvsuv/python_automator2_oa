@@ -95,6 +95,7 @@ import email
 import datetime
 from hashlib import md5
 #http://www.pythoner.com/414.html
+from datetime import datetime
 def imap4(host, port, usr, pwd, use_ssl):
     """Imap4 handler
 
@@ -109,17 +110,16 @@ def imap4(host, port, usr, pwd, use_ssl):
     try:
         conn = imaplib.IMAP4_SSL(host, port) if use_ssl else imaplib.IMAP4(host, port)
         conn.login(usr, pwd)
-        #print("[+] Connect to {0}:{1} successfully".format(host, port))
+        # http://blog.csdn.net/q932104843/article/details/52502447
+        # conn.select("INBOX", readonly=False)
+        conn.select(EMAIL_FOLDER, readonly=False)
+        # rv, data = conn.search(None, "ALL")
+        rv, data = conn.search(None, '(UNSEEN)')
     except BaseException as e:
         #exit_script("Connect to {0}:{1} failed".format(host, port), e)
-        print("failed to login")
+        print(datetime.now(), "failed to login")
         return cmd
 
-    #http://blog.csdn.net/q932104843/article/details/52502447
-    #conn.select("INBOX", readonly=False)
-    conn.select(EMAIL_FOLDER, readonly=False)
-    #rv, data = conn.search(None, "ALL")
-    rv, data = conn.search(None, '(UNSEEN)')
     if rv != 'OK':
         print ("No messages found!")
         return cmd

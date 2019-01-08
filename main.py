@@ -9,6 +9,7 @@ from libs.utils import *
 from oa.oa import OA
 from simulator.leidian import LeiDian
 from appConstants import *
+from datetime import datetime
 
 def checkIn(restart = True, check_in = True):
     if restart:
@@ -147,7 +148,7 @@ def main():
 
     day = -1
     while True:
-        mydate = datetime.datetime.now()
+        mydate = datetime.now()
         strShortTime = mydate.strftime("%H:%M")
         nowDay = mydate.day
         if (day != nowDay):
