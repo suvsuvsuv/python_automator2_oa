@@ -117,7 +117,7 @@ def imap4(host, port, usr, pwd, use_ssl):
         rv, data = conn.search(None, '(UNSEEN)')
     except BaseException as e:
         #exit_script("Connect to {0}:{1} failed".format(host, port), e)
-        print(datetime.now(), "failed to login")
+        print(datetime.now(), "failed to login", e)
         return cmd
 
     if rv != 'OK':

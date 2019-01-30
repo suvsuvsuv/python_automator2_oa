@@ -155,7 +155,8 @@ def main():
             day = nowDay
             # create_time_list()
 
-        cmd = imap4("imap.qq.com", 993, RECEIVE_IMAP_USER, RECEIVE_IMAP_PWD, True)
+        #cmd = imap4("imap.qq.com", 993, RECEIVE_IMAP_USER, RECEIVE_IMAP_PWD, True)
+        cmd = getSubjectFromOutlook()
         if cmd is None:
             cmd = check_timeList(strShortTime)
         if cmd is not None:
@@ -184,6 +185,26 @@ def main():
                 print('---------------------')
                 # print cmd
         time.sleep(5)
+
+def getSubjectFromOutlook():
+    from libs.outlook import Outlook
+    cmd = None
+    mail = Outlook()
+    mail.login()
+    mail.inbox()
+    list = mail.unreadIds()
+    id = list[-1]
+    if id != '':
+        email = mail.getEmail(id)
+        if email is not None:
+            subject = email['Subject']
+            print(subject)
+            if subject.find("oa:") != -1:  # 中文标题会抛异常
+                strlist = subject.split(':')
+                if len(strlist) >= 2:
+                    cmd = strlist[1]
+                    print('command: %s' % (cmd))
+    return cmd
 
 if __name__ == "__main__":
     '''check_in = False
