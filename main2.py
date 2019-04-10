@@ -271,7 +271,7 @@ def waitToClick(adbkit, find_img, timeout_ms = 0, threshold = 0.8):
                     break
             else:
                 pass
-            time.sleep(0.5)
+            time.sleep(10)
     return found
 
 from libs.checker import Checker
